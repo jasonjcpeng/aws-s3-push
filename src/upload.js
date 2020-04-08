@@ -70,11 +70,13 @@ class Upload {
   async s3Upload(rootPath, filePath, cacheWriter) {
     const startTime = Date.now();
 
-    const pathArr = filePath.split(`${rootPath}\\`);
+    const pathArr = encodeURIComponent(filePath).split(`${encodeURIComponent(rootPath)}`);
 
     const stream = fstream.Reader(filePath).pipe(zlib.createGzip());
 
-    const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}/${pathArr[1].replace(/\\/g, '/')}`, Body: stream, ContentEncoding: 'gzip' };
+    const pathReal = decodeURIComponent(pathArr[1]).replace(/\\/g, '/');
+
+    const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip' };
 
     return new Promise((res, rej) => {
       if (!this.cache.isFileDiff({ path: filePath })) {
