@@ -1,0 +1,27 @@
+{
+  "name": "aws-s3-push",
+  "version": "1.0.0",
+  "description": "push to aws-s3",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha test/index.js"
+  },
+  "keywords": [
+    "aws",
+    "s3",
+    "cdn"
+  ],
+  "author": "jasonjcpeng@hotmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "check-types": "^11.1.2",
+    "mocha": "^7.1.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.652.0",
+    "fstream": "^1.0.12",
+    "node-dir": "^0.1.17",
+    "zlib": "^1.0.5"
+  }
+}
