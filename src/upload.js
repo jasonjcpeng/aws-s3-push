@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk')
 const zlib = require('zlib');
 const fstream = require('fstream');
+const mime = require('mime-types');
 const dir = require('node-dir');
 const cache = require('./cache');
 
@@ -74,9 +75,11 @@ class Upload {
 
     const stream = fstream.Reader(filePath).pipe(zlib.createGzip());
 
+    const mimeType = mime.lookup(filePath);
+
     const pathReal = decodeURIComponent(pathArr[1]).replace(/\\/g, '/');
 
-    const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip' };
+    const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip', ContentType: mimeType };
 
     return new Promise((res, rej) => {
       if (!this.cache.isFileDiff({ path: filePath })) {

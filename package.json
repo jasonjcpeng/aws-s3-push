@@ -22,9 +22,10 @@
     "mocha": "^7.1.1"
   },
   "dependencies": {
-    "check-types": "^11.1.2",
     "aws-sdk": "^2.652.0",
+    "check-types": "^11.1.2",
     "fstream": "^1.0.12",
+    "mime-types": "^2.1.26",
     "node-dir": "^0.1.17",
     "zlib": "^1.0.5"
   }
