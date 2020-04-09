@@ -82,6 +82,11 @@ class Upload {
     const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip', ContentType: mimeType };
 
     return new Promise((res, rej) => {
+      if (!mimeType) {
+        console.log(`[S3 Upload Warn - Nothing to push] PATH:${filePath}`);
+        res(1);
+      }
+
       if (!this.cache.isFileDiff({ path: filePath })) {
         res(1);
       }
@@ -92,12 +97,12 @@ class Upload {
         }
         if (data && data.ETag) {
           cacheWriter.add({ path: filePath });
-          console.log(`[S3 Upload Success - ${(Date.now() - startTime)}ms]`, data.Location);
+          console.log(`[S3 Upload Success - ${(Date.now() - startTime)} ms]`, data.Location);
           res(1);
         }
 
         if (!err && !data) {
-          console.log(`[S3 Upload unknown - key:${params.Key}/ContentType:${params.mimeType}]`);
+          console.log(`[S3 Upload unknown - key: ${params.Key} /ContentType:${params.mimeType}]`);
         }
 
       })
