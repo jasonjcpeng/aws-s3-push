@@ -79,13 +79,9 @@ class Upload {
 
     const pathReal = decodeURIComponent(pathArr[1]).replace(/\\/g, '/');
 
-    const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip', ContentType: mimeType };
+    const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip', ContentType: mimeType || undefined };
 
     return new Promise((res, rej) => {
-      if (!mimeType) {
-        console.log(`[S3 Upload Warn - Nothing to push] PATH:${filePath}`);
-        res(1);
-      }
 
       if (!this.cache.isFileDiff({ path: filePath })) {
         res(1);

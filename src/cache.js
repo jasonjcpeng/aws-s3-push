@@ -7,7 +7,7 @@ class Cache {
     bucketName = ''
   }) {
     this.cachePath = cachePath;
-    this.bucketName = `.${bucketName}`;
+    this.bucketName = `asp-cache-${bucketName}`;
   }
 
 
