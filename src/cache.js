@@ -14,7 +14,7 @@ class Cache {
   readCache() {
     let result = '';
     try {
-      result = fs.readFileSync(`${this.cachePath}\\${this.bucketName}`)
+      result = fs.readFileSync(`${this.cachePath}/${this.bucketName}`)
     } catch (error) {
       result = undefined
     }
@@ -37,7 +37,7 @@ class Cache {
       },
       do() {
         fstream.Writer({
-          path: `${self.cachePath}${self.bucketName}`
+          path: `${self.cachePath}/${self.bucketName}`
         }).write(JSON.stringify(File));
         return 1
       },
@@ -53,7 +53,7 @@ class Cache {
   }
 
   deleteCache() {
-    fs.writeFileSync(`${this.cachePath}\\${this.bucketName}`, '{}')
+    fs.writeFileSync(`${this.cachePath}/${this.bucketName}`, '{}')
   }
 
 }
