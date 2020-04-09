@@ -1,6 +1,6 @@
 {
   "name": "aws-s3-push",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "push to aws-s3",
   "main": "index.js",
   "scripts": {
