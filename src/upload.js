@@ -90,11 +90,16 @@ class Upload {
         if (err) {
           rej(err);
         }
-        if (data.ETag) {
+        if (data && data.ETag) {
           cacheWriter.add({ path: filePath });
           console.log(`[S3 Upload Success - ${(Date.now() - startTime)}ms]`, data.Location);
           res(1);
         }
+
+        if (!err && !data) {
+          console.log(`[S3 Upload unknown - key:${params.Key}/ContentType:${params.mimeType}]`);
+        }
+
       })
     })
 
