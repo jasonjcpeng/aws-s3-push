@@ -38,7 +38,7 @@ class Cache {
       },
       do() {
         fstream.Writer({
-          path: `${self.cachePath}${self.bucketName}`
+          path: `${self.cachePath}//${self.bucketName}`
         }).write(JSON.stringify(File));
         return 1
       }
