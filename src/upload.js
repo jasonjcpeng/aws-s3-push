@@ -43,13 +43,7 @@ class Upload {
     const dirAll = await dir.promiseFiles(path);
     const failPath = [];
     return new Promise((res, rej) => {
-      Promise.all(dirAll.filter(ele => {
-        if (this.cache.isFileDiff({ path: ele })) {
-          return true;
-        }
-        console.log(`[S3 Upload Success - at Cache]`, ele);
-        return false;
-      }).map(async (item) => {
+      Promise.all(dirAll.map(async (item) => {
         return new Promise(async (resolve, reject) => {
           const result = await this.s3Upload(path, item, cacheWriter);
           if (result !== 1) {
@@ -69,7 +63,6 @@ class Upload {
   }
 
   async s3Upload(rootPath, filePath, cacheWriter) {
-    const startTime = Date.now();
 
     const pathArr = encodeURIComponent(filePath).split(`${encodeURIComponent(rootPath)}`);
 
@@ -82,9 +75,12 @@ class Upload {
     const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip', ContentType: mimeType || undefined };
 
     return new Promise((res, rej) => {
+      const startTime = Date.now();
 
-      if (!this.cache.isFileDiff({ path: filePath })) {
+      if (!cacheWriter.isFileDiff({ path: pathReal })) {
+        console.log(`[S3 Upload Success - at Cache]`, pathReal);
         res(1);
+        return;
       }
 
       this.s3Node.upload(params, function (err, data) {
@@ -92,7 +88,7 @@ class Upload {
           rej(err);
         }
         if (data && data.ETag) {
-          cacheWriter.add({ path: filePath });
+          cacheWriter.add({ path: pathReal });
           console.log(`[S3 Upload Success - ${(Date.now() - startTime)} ms]`, data.Location);
           res(1);
         }

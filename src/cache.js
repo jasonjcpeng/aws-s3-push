@@ -1,5 +1,5 @@
-const fstream = require('fstream');
 const fs = require('fs');
+const fstream = require('fstream');
 
 class Cache {
   constructor({
@@ -28,19 +28,24 @@ class Cache {
     }
     const cacheFile = this.readCache();
     const File = JSON.parse(cacheFile.toString());
-
     const result = {
       add({
         path = ''
       }) {
-        File[path] = true;
+        File[path] = '';
         return result;
       },
       do() {
         fstream.Writer({
-          path: `${self.cachePath}//${self.bucketName}`
+          path: `${self.cachePath}${self.bucketName}`
         }).write(JSON.stringify(File));
         return 1
+      },
+      isFileDiff({
+        path = '',
+      }) {
+        if (File[path] === '') return false;
+        return true
       }
     }
 
@@ -51,14 +56,6 @@ class Cache {
     fs.writeFileSync(`${this.cachePath}\\${this.bucketName}`, '{}')
   }
 
-  isFileDiff({
-    path = '',
-  }) {
-    const cacheFile = this.readCache();
-    const File = JSON.parse(cacheFile.toString());
-    if (File[path]) return false;
-    return true
-  }
 }
 
 module.exports = Cache;
