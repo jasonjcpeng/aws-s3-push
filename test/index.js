@@ -24,6 +24,9 @@ describe('#Index > /index.js', () => {
     region,
     accessKeyId,
     secretAccessKey,
+    s3Params: {
+      CacheControl: 'max-age=5184000'
+    }
   });
 
   it('index.upload()', async function () {
@@ -50,6 +53,9 @@ describe('#Upload > /src/upload.js', () => {
     region,
     accessKeyId,
     secretAccessKey,
+    s3Params: {
+      CacheControl: 'max-age:5184000'
+    }
   });
 
   // upload.upload()
@@ -59,12 +65,6 @@ describe('#Upload > /src/upload.js', () => {
     assert.equal(result, 1);
   })
 
-  // upload.s3Upload()
-  it('upload.s3Upload()', async function () {
-    this.timeout(10000);
-    const result = await Upload.s3Upload(rootPath, filePath);
-    assert.equal(result, 1);
-  })
 })
 
 

@@ -9,6 +9,7 @@ class index {
     region = '',
     accessKeyId = '',
     secretAccessKey = '',
+    s3Params = {},
   }) {
     this.params = {
       bucketName,
@@ -17,6 +18,7 @@ class index {
       region,
       accessKeyId,
       secretAccessKey,
+      s3Params,
     }
     this.checkParams();
     this.Up = new Upload(this.params);

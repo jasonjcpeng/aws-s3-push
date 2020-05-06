@@ -72,7 +72,7 @@ class Upload {
 
     const pathReal = decodeURIComponent(pathArr[1]).replace(/\\/g, '/');
 
-    const params = { Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip', ContentType: mimeType || undefined };
+    const params = { ...this.config.s3Params, Bucket: this.config.bucketName, Key: `${this.config.bucketDir}${pathReal}`, Body: stream, ContentEncoding: 'gzip', ContentType: mimeType || undefined };
 
     return new Promise((res, rej) => {
       const startTime = Date.now();

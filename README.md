@@ -19,6 +19,9 @@ A module for aws s3 cdn push with cache
     region,
     accessKeyId, 
     secretAccessKey, 
+    s3Params:{
+      // CacheControl:'max-age=5184000'
+    }
   });
 
   push.upload(rootPath); 
@@ -38,6 +41,8 @@ A module for aws s3 cdn push with cache
 - **region**:{string} s3 region
 - **accessKeyId**:{string} s3 ACCESS_KEY 
 - **secretAccessKey**:{string} s3 ACCESS_SECRET
+- **s3Params**:{object} defaults to {}, s3.upload() params pass. > read https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
+
 
 #### method params
 - **upload(path)**: sync upload to s3
